@@ -70,7 +70,10 @@ app.MapPost("/api/trainings", async (CreateTrainingRequest request, TrainingCata
 		errors["lessonDurationHours"] = ["A duração de cada aula deve ser maior que zero e menor ou igual a quatro horas."];
 	}
 
-	if ((long)request.LessonCount * request.LessonDurationHours > request.DurationHours)
+	if (request.DurationHours > 0 &&
+		request.LessonCount > 0 &&
+		request.LessonDurationHours is > 0 and <= 4 &&
+		(long)request.LessonCount * request.LessonDurationHours > request.DurationHours)
 	{
 		errors["lessonDurationHours"] = ["A carga horária das aulas não pode exceder a carga horária total."];
 	}
@@ -271,7 +274,10 @@ app.MapPut("/api/trainings/{id:guid}", async (Guid id, CreateTrainingRequest req
 		errors["lessonDurationHours"] = ["A duração de cada aula deve ser maior que zero e menor ou igual a quatro horas."];
 	}
 
-	if ((long)request.LessonCount * request.LessonDurationHours > request.DurationHours)
+	if (request.DurationHours > 0 &&
+		request.LessonCount > 0 &&
+		request.LessonDurationHours is > 0 and <= 4 &&
+		(long)request.LessonCount * request.LessonDurationHours > request.DurationHours)
 	{
 		errors["lessonDurationHours"] = ["A carga horária das aulas não pode exceder a carga horária total."];
 	}

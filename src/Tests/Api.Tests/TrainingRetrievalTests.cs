@@ -30,6 +30,8 @@ public sealed class TrainingRetrievalTests
         Assert.NotNull(training);
         Assert.Equal(createdTraining.Id, training.Id);
         Assert.Equal(request.Title, training.Title);
+        Assert.Equal(request.LessonCount, training.LessonCount);
+        Assert.Equal(request.LessonDurationHours, training.LessonDurationHours);
     }
 
     [Fact]
