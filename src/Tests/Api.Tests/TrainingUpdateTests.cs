@@ -17,7 +17,9 @@ public sealed class TrainingUpdateTests
             "C# Avançado",
             "Tópicos avançados de C#",
             "2026-09-16",
-            16);
+            16,
+            4,
+            4);
 
         var response = await client.PutAsJsonAsync($"/api/trainings/{createdTraining.Id}", request);
 
@@ -29,6 +31,8 @@ public sealed class TrainingUpdateTests
         Assert.Equal(request.Description, training.Description);
         Assert.Equal(DateOnly.Parse(request.StartDate!), training.StartDate);
         Assert.Equal(request.DurationHours, training.DurationHours);
+        Assert.Equal(request.LessonCount, training.LessonCount);
+        Assert.Equal(request.LessonDurationHours, training.LessonDurationHours);
     }
 
     [Fact]
@@ -36,7 +40,7 @@ public sealed class TrainingUpdateTests
     {
         using var factory = new TrainingCatalogApiFactory();
         using var client = factory.CreateClient();
-        var request = new CreateTrainingRequest("", "Descrição", "2026-09-15", 8);
+        var request = new CreateTrainingRequest("", "Descrição", "2026-09-15", 8, 2, 4);
 
         var response = await client.PutAsJsonAsync($"/api/trainings/{Guid.NewGuid()}", request);
 
@@ -50,7 +54,7 @@ public sealed class TrainingUpdateTests
     {
         using var factory = new TrainingCatalogApiFactory();
         using var client = factory.CreateClient();
-        var request = new CreateTrainingRequest("Fundamentos de C#", "Introdução ao C#", "2026-09-15", 8);
+        var request = new CreateTrainingRequest("Fundamentos de C#", "Introdução ao C#", "2026-09-15", 8, 2, 4);
 
         var response = await client.PutAsJsonAsync($"/api/trainings/{Guid.NewGuid()}", request);
 
@@ -64,7 +68,7 @@ public sealed class TrainingUpdateTests
         using var client = factory.CreateClient();
         var firstTraining = await CreateTraining(client, "2026-09-15");
         await CreateTraining(client, "2026-09-16");
-        var request = new CreateTrainingRequest("C# Avançado", "Tópicos avançados de C#", "2026-09-16", 16);
+        var request = new CreateTrainingRequest("C# Avançado", "Tópicos avançados de C#", "2026-09-16", 16, 4, 4);
 
         var response = await client.PutAsJsonAsync($"/api/trainings/{firstTraining.Id}", request);
 
@@ -77,7 +81,7 @@ public sealed class TrainingUpdateTests
 
     private static async Task<Training> CreateTraining(HttpClient client, string startDate)
     {
-        var request = new CreateTrainingRequest("Fundamentos de C#", "Introdução ao C#", startDate, 8);
+        var request = new CreateTrainingRequest("Fundamentos de C#", "Introdução ao C#", startDate, 8, 2, 4);
         var response = await client.PostAsJsonAsync("/api/trainings", request);
 
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
