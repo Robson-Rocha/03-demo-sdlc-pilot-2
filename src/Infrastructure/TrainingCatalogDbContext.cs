@@ -19,6 +19,8 @@ public sealed class TrainingCatalogDbContext(DbContextOptions<TrainingCatalogDbC
         training.HasIndex(entity => entity.StartDate).IsUnique();
         training.Property(entity => entity.Title).IsRequired();
         training.Property(entity => entity.Description).IsRequired();
+        training.Property(entity => entity.LessonCount).IsRequired();
+        training.Property(entity => entity.LessonDurationHours).IsRequired();
 
         var attendee = modelBuilder.Entity<AttendeeEntity>();
 

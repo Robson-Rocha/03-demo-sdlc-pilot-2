@@ -59,6 +59,12 @@ namespace TrainingCatalog.Infrastructure.Migrations
                     b.Property<int>("DurationHours")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("LessonCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("LessonDurationHours")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateOnly>("StartDate")
                         .HasColumnType("TEXT");
 
