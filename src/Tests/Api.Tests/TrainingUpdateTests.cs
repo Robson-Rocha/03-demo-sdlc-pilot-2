@@ -50,7 +50,7 @@ public sealed class TrainingUpdateTests
     }
 
     [Fact]
-    public async Task ReturnsBadRequestWhenLessonDurationExceedsTotalDuration()
+    public async Task ReturnsBadRequestWhenCombinedLessonLoadExceedsTotalDuration()
     {
         using var factory = new TrainingCatalogApiFactory();
         using var client = factory.CreateClient();
@@ -61,6 +61,9 @@ public sealed class TrainingUpdateTests
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         using var error = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
         Assert.True(error.RootElement.GetProperty("errors").TryGetProperty("lessonDurationHours", out _));
+        Assert.Equal(
+            "A carga horária das aulas não pode exceder a carga horária total.",
+            error.RootElement.GetProperty("errors").GetProperty("lessonDurationHours")[0].GetString());
     }
 
     [Fact]
